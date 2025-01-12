@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    vector<vector<int>> findTriplets(vector<int> &arr) {
+        // Code here
+        int n = arr.size();
+        unordered_map<int,int> mp;
+        set<vector<int>> st;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                int a = arr[i], b = arr[j];
+                int c = -(a+b);
+                if(mp.count(c)==1 && i != j && j != mp[c] && mp[c] != i){
+                    vector<int> temp(3);
+                    temp[0] = i, temp[1] = j, temp[2] = mp[c]; 
+                    sort(temp.begin(),temp.end());
+                    st.insert(temp);
+                }
+            }
+            mp[arr[i]] = i;
+        }
+        vector<vector<int>> ans;
+        for(auto it : st){
+            ans.push_back(it);
+        }
+        return ans;
+    }
+}
