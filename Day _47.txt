@@ -1,0 +1,38 @@
+// Java program to find longest consecutive subsequence
+import java.util.Arrays;
+
+class GfG {
+    static int longestConsecutive(int[] arr) {
+        
+        // Sort the array
+        Arrays.sort(arr);
+
+        int res = 1, cnt = 1;
+
+        // Find the maximum length by traversing the array
+        for (int i = 1; i < arr.length; i++) {
+            
+            // Skip duplicates
+            if (arr[i] == arr[i - 1])
+                continue;
+
+            // Check if the current element is equal
+            // to previous element + 1
+            if (arr[i] == arr[i - 1] + 1) {
+                cnt++;
+            } else {
+                // Reset the count
+                cnt = 1;
+            }
+
+            // Update the result
+            res = Math.max(res, cnt);
+        }
+        return res;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 2, 6, 1, 9, 4, 5, 3 };
+        System.out.println(longestConsecutive(arr));
+    }
+}
