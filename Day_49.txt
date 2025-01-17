@@ -1,0 +1,30 @@
+import java.util.*;
+
+class CountSubArray{
+    static int countSubarrays(int[] arr, int k) {
+        int res = 0;
+        int currSum = 0;
+        Map<Integer, Integer> prefixSum = new HashMap<>();
+
+        for (int num : arr) {
+            // Update the current sum
+            currSum += num;
+
+            // If the current sum equals `k`, increment result
+            if (currSum == k) {
+                res++;
+            }
+
+            // Check if (currSum - k) exists in the map
+            if (prefixSum.containsKey(currSum - k)) {
+                res += prefixSum.get(currSum - k);
+            }
+
+            // Update the frequency of the current sum in the map
+            prefixSum.put(currSum, prefixSum.getOrDefault(currSum, 0) + 1);
+        }
+
+        return res;
+    }
+
+   
