@@ -1,0 +1,55 @@
+import java.util.*;
+
+class ClosestPair {
+
+    
+    static int findClosest(int[] arr, int lo, int hi, int complement) {
+        int res = arr[lo];
+        while (lo <= hi) {
+            int mid = lo + (hi - lo) / 2;
+
+          
+            if (Math.abs(arr[mid] - complement) < Math.abs(res - complement) ||
+               (Math.abs(arr[mid] - complement) == Math.abs(res - complement) && arr[mid] > res)) {
+                res = arr[mid];
+            }
+
+            // Adjust binary search bounds
+            if (arr[mid] < complement) {
+                lo = mid + 1;
+            } else if (arr[mid] > complement) {
+                hi = mid - 1;
+            } else {
+                return arr[mid]; // Exact match found
+            }
+        }
+        return res;
+    }
+
+    // Find pair with sum closest to target
+    static List<Integer> findPairWithClosestSum(int[] arr, int target) {
+        int n = arr.length;
+        Arrays.sort(arr); // Sort array for binary search
+        List<Integer> result = new ArrayList<>();
+        int minDiff = Integer.MAX_VALUE;
+
+        for (int i = 0; i < n - 1; i++) {
+            // Find complement to reach the target
+            int complement = target - arr[i];
+            // Use binary search to find the closest value
+            int closest = findClosest(arr, i + 1, n - 1, complement);
+
+            // Calculate current difference
+            int currDiff = Math.abs(target - (arr[i] + closest));
+
+            // Update result if a closer pair is found
+            if (currDiff < minDiff) {
+                minDiff = currDiff;
+                result = Arrays.asList(arr[i], closest);
+            }
+        }
+
+        return result;
+    }
+   
+}
