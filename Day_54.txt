@@ -1,0 +1,21 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class GfG {
+
+   
+    static int countPairs(int[] arr, int target) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        int cnt = 0;
+
+        for (int num : arr) {
+            
+            cnt += freq.getOrDefault(target - num, 0);
+           
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+        return cnt;
+    }
+
+   
+}
