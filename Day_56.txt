@@ -1,0 +1,32 @@
+
+
+class GfG {
+    
+    static ArrayList<Integer> subarraySum(int[] arr, int target) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int s = 0, currSum = 0;
+
+        for (int e = 0; e < arr.length; e++) {
+            currSum += arr[e]; 
+
+            
+            while (currSum > target && s <= e) {
+                currSum -= arr[s];
+                s++;
+            }
+
+            
+            if (currSum == target) {
+                res.add(s + 1); // Add 1 to convert to 1-based index.
+                res.add(e + 1); // Add 1 to convert to 1-based index.
+                return res;
+            }
+        }
+
+        
+        res.add(-1);
+        return res;
+    }
+
+   
+}
