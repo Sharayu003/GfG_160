@@ -1,0 +1,30 @@
+class Solution {
+
+    public int maxWater(int arr[]) {
+        // Code Here
+        int left = 0, right = arr.length - 1;
+        // Variable to store the maximum area
+        int maxArea = 0;
+
+        // Loop until the two pointers meet
+        while (left < right) {
+            // Calculate the current area
+            int height = Math.min(arr[left], arr[right]);
+            int width = right - left;
+            int currentArea = height * width;
+
+            // Update the maximum area
+            maxArea = Math.max(maxArea, currentArea);
+
+            // Move the pointer pointing to the shorter line
+            if (arr[left] < arr[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        // Return the maximum area
+        return maxArea;
+    }
+}
