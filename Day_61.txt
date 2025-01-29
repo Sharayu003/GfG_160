@@ -1,0 +1,16 @@
+import java.util.*;
+
+class EquilibriumIndex {
+    static int findEquilibriumIndex(int[] arr) {
+        int leftSum = 0, totalSum = Arrays.stream(arr).sum(); 
+        for (int i = 0; i < arr.length; i++) {
+            if (leftSum == totalSum - leftSum - arr[i]) {
+                return i;
+            }
+            leftSum += arr[i];
+        }
+        return -1;
+    }
+
+    
+}
