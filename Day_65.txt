@@ -1,0 +1,48 @@
+// Iterative Java program to reverse a linked list
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int new_data) {
+        data = new_data;
+        next = null;
+    }
+}
+
+// Given the head of a list, reverse the list and return the
+// head of reversed list
+class GfG {
+     static Node reverseList(Node head) {
+        
+        
+        Node curr = head, prev = null, next;
+
+        
+        while (curr != null) {
+            
+            
+            next = curr.next;
+            
+            
+            curr.next = prev;
+            
+            
+            prev = curr;
+            curr = next;
+        }
+        
+       
+        return prev;
+    }
+
+    
+    static void printList(Node node) {
+        while (node != null) {
+            System.out.print(" " + node.data);
+            node = node.next;
+        }
+    }
+
+    
+}
