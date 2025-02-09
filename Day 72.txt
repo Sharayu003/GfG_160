@@ -1,0 +1,37 @@
+// Java program to find starting node 
+// of loop using Hasing
+
+import java.util.HashSet;
+
+// Function to detect a loop in the linked list and 
+// return the node where the cycle starts using HashSet
+class GfG {
+    static Node findFirstNode(Node head) {
+  
+        // HashSet to store visited nodes
+        HashSet<Node> st = new HashSet<>(); 
+        
+        Node currNode = head; 
+        
+        // Traverse the linked list
+        while (currNode != null) {
+          
+            // If the current node is already in the HashSet,
+            // then this is the starting node of the loop
+            if (st.contains(currNode)) {
+                return currNode;
+            }
+            
+            // If not, add the current node to the HashSet
+            st.add(currNode);
+            
+            // Move to the next node
+            currNode = currNode.next;
+        }
+        
+        // If no loop found, return null
+        return null;
+    }
+
+    
+}
