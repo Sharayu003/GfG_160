@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Solution {
+    public ArrayList<String> findPermutation(String s) {
+        ArrayList<String> result = new ArrayList<>();
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars); // Sort to handle duplicates
+        boolean[] used = new boolean[s.length()];
+        backtrack(result, new StringBuilder(), chars, used);
+        return result;
+    }
+
+    private void backtrack(ArrayList<String> result, StringBuilder temp, char[] chars, boolean[] used) {
+        if (temp.length() == chars.length) {
+            result.add(temp.toString());
+            return;
+        }
+
+        for (int i = 0; i < chars.length; i++) {
+            if (used[i]) continue; // Skip used characters
+            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) continue; // Skip duplicates
+
+            used[i] = true;
+            temp.append(chars[i]);
+            backtrack(result, temp, chars, used);
+            temp.deleteCharAt(temp.length() - 1); // Undo choice
+            used[i] = false;
+        }
+    }
+}
