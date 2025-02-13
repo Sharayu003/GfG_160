@@ -1,0 +1,21 @@
+class GfG {
+
+    // Optimized power function using Exponentiation by Squaring
+    static double power(double b, int e) {
+        if (e == 0)
+            return 1;
+
+        double halfPower = power(b, e / 2);
+
+        if (e % 2 == 0) // If e is even
+            return halfPower * halfPower;
+        else {
+            if (e > 0)
+                return b * halfPower * halfPower;
+            else
+                return (halfPower * halfPower) / b;
+        }
+    }
+
+    
+}
