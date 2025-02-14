@@ -1,0 +1,36 @@
+import java.util.*;
+
+class Solution {
+    public ArrayList<ArrayList<Integer>> nQueen(int n) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        backtrack(n, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void backtrack(int n, int col, ArrayList<Integer> board, ArrayList<ArrayList<Integer>> result) {
+        if (col == n) {
+            result.add(new ArrayList<>(board));
+            return;
+        }
+
+        for (int row = 1; row <= n; row++) {
+            if (isValid(board, row, col)) {
+                board.add(row);
+                backtrack(n, col + 1, board, result);
+                board.remove(board.size() - 1);
+            }
+        }
+    }
+
+    private boolean isValid(ArrayList<Integer> board, int row, int col) {
+        for (int prevCol = 0; prevCol < col; prevCol++) {
+            int prevRow = board.get(prevCol);
+            if (prevRow == row || Math.abs(prevRow - row) == Math.abs(prevCol - col)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    
+}
