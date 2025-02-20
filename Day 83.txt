@@ -1,0 +1,18 @@
+class Solution{
+void mirrorTree(TreeNode root) {
+    if (root == null) {
+        return;
+    }
+
+    // Swap left and right subtree
+    TreeNode temp = root.left;
+    root.left = root.right;
+    root.right = temp;
+
+    // Recursively call for left and right subtree
+    mirrorTree(root.left);
+    mirrorTree(root.right);
+
+    return;
+}
+}
