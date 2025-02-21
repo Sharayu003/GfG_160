@@ -1,0 +1,51 @@
+class Solution {
+    
+    // Function to print postorder traversal
+    static void printPostOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        
+        // First recur on left subtree
+        printPostOrder(root.left);
+        
+        // Then recur on right subtree
+        printPostOrder(root.right);
+        
+        // Now print the root node
+        System.out.print(root.data + " ");
+    }
+
+    // Recursive function to build the binary tree.
+    static Node buildTreeRecur(Map<Integer, Integer> mp, int[] preorder, 
+                               int[] preIndex, int left, int right) {
+        // For empty inorder array, return null
+        if (left > right)
+            return null;
+
+        int rootVal = preorder[preIndex[0]];
+        preIndex[0]++;
+
+        // Create the root Node
+        Node root = new Node(rootVal);
+
+        // Find the index of root element in inorder array
+        int index = mp.get(rootVal);
+
+        // Recursively create the left and right subtree
+        root.left = buildTreeRecur(mp, preorder, preIndex, left, index - 1);
+        root.right = buildTreeRecur(mp, preorder, preIndex, index + 1, right);
+
+        return root;
+    }
+
+    static Node buildTree(int[] inorder, int[] preorder) {
+        // Hash map that stores index of a root element in inorder array
+        Map<Integer, Integer> mp = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++)
+            mp.put(inorder[i], i);
+
+        int[] preIndex = {0};
+        return buildTreeRecur(mp, preorder, preIndex, 0, inorder.length - 1);
+    }
+}
