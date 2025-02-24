@@ -1,0 +1,28 @@
+
+public class Solution {
+    private int maxSum = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        dfs(root);
+        return maxSum;
+    }
+
+    private int dfs(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        
+        // Max path sum on the left and right, ignore negative sums
+        int left = Math.max(dfs(node.left), 0);
+        int right = Math.max(dfs(node.right), 0);
+
+        // Max path sum WITH the current node (including both children)
+        int currentMax = node.val + left + right;
+
+        // Update global max sum if the current path is the largest seen so far
+        maxSum = Math.max(maxSum, currentMax);
+
+        // Return max path sum for parent computation (can only pick one side: left or right)
+        return node.val + Math.max(left, right);
+    }
+}
