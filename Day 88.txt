@@ -1,0 +1,35 @@
+import java.util.HashMap;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int val) { this.val = val; }
+}
+
+public class PathSum {
+    public int pathSum(TreeNode root, int k) {
+        HashMap<Integer, Integer> prefixSumCount = new HashMap<>();
+        prefixSumCount.put(0, 1); // Base case for when currentSum == k
+        return dfs(root, 0, k, prefixSumCount);
+    }
+    
+    private int dfs(TreeNode node, int currentSum, int k, HashMap<Integer, Integer> prefixSumCount) {
+        if (node == null) return 0;
+        
+
+        currentSum += node.val;
+        int count = prefixSumCount.getOrDefault(currentSum - k, 0); // Check if a valid path exists
+        
+        // Update the map with the currentSum
+        prefixSumCount.put(currentSum, prefixSumCount.getOrDefault(currentSum, 0) + 1);
+        
+        // Recursive DFS for left and right children
+        count += dfs(node.left, currentSum, k, prefixSumCount);
+        count += dfs(node.right, currentSum, k, prefixSumCount);
+        
+        // Backtrack to remove currentSum when going back up the tree
+        prefixSumCount.put(currentSum, prefixSumCount.get(currentSum) - 1);
+        
+        return count;
+    }
+}
