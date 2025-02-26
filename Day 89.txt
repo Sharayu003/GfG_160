@@ -1,0 +1,28 @@
+
+public class CheckBST {
+    Node prev = null;
+
+    boolean isBST(Node root) {
+        return isBSTUtil(root);
+    }
+
+    boolean isBSTUtil(Node node) {
+        if (node == null) {
+            return true;
+        }
+
+        // Check the left subtree
+        if (!isBSTUtil(node.left)) {
+            return false;
+        }
+
+        // Check current node
+        if (prev != null && node.data <= prev.data) {
+            return false;
+        }
+        prev = node;
+
+        // Check the right subtree
+        return isBSTUtil(node.right);
+    }
+}
