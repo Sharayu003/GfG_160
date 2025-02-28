@@ -1,0 +1,32 @@
+
+
+public class PairSumBST {
+
+    // Inorder traversal to get elements in sorted order
+    private void inorder(TreeNode root, List<Integer> nodes) {
+        if (root == null) return;
+        inorder(root.left, nodes);
+        nodes.add(root.val);
+        inorder(root.right, nodes);
+    }
+
+    public boolean findTarget(TreeNode root, int target) {
+        List<Integer> nodes = new ArrayList<>();
+        inorder(root, nodes);  // Get sorted list from BST
+
+        // Two-pointer approach to find the pair sum
+        int left = 0, right = nodes.size() - 1;
+        while (left < right) {
+            int sum = nodes.get(left) + nodes.get(right);
+            if (sum == target) {
+                return true;  // Pair found
+            } else if (sum < target) {
+                left++;  // Increase left pointer to get a larger sum
+            } else {
+                right--; // Decrease right pointer to get a smaller sum
+            }
+        }
+        return false;  // No pair found
+    }
+
+  
