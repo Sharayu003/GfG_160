@@ -1,0 +1,50 @@
+class Solution {
+    private Node first;
+    private Node prev;
+    private Node middle;
+    private Node last;
+    
+    private void inorder(Node root) {
+        if (root == null) return;
+        
+        // Traverse left subtree
+        inorder(root.left);
+        
+        // Check for BST violation
+        if (prev != null && root.data < prev.data) {
+            // First violation
+            if (first == null) {
+                first = prev;
+                middle = root;
+            } else { // Second violation
+                last = root;
+            }
+        }
+        
+        // Update previous node
+        prev = root;
+        
+        // Traverse right subtree
+        inorder(root.right);
+    }
+
+    void correctBST(Node root) {
+        // Initialize pointers
+        first = middle = last = null;
+        prev = new Node(Integer.MIN_VALUE);
+
+        // Perform inorder traversal to find swapped nodes
+        inorder(root);
+
+        // Correct the swapped nodes
+        if (first != null && last != null) {
+            int temp = first.data;
+            first.data = last.data;
+            last.data = temp;
+        } else if (first != null && middle != null) {
+            int temp = first.data;
+            first.data = middle.data;
+            middle.data = temp;
+        }
+    }
+}
