@@ -1,0 +1,22 @@
+public class LCABST {
+    public TreeNode findLCA(TreeNode root, int n1, int n2) {
+        if (root == null) {
+            return null;
+        }
+
+        // If both n1 and n2 are smaller than root, LCA lies in the left subtree
+        if (root.val > n1.val && root.val > n2.val) {
+            return findLCA(root.left, n1, n2);
+        }
+
+        // If both n1 and n2 are greater than root, LCA lies in the right subtree
+        if (root.val < n1.val && root.val < n2.val) {
+            return findLCA(root.right, n1, n2);
+        }
+
+        // If n1 and n2 are on different sides, root is the LCA
+        return root;
+    }
+
+    
+}
