@@ -1,0 +1,31 @@
+public class MergeKSortedLists {
+    public static ListNode mergeKLists(ListNode[] lists) {
+        // Min-Heap to store (value, node) pairs
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);
+
+        // Add the head of each linked list to the heap
+        for (ListNode head : lists) {
+            if (head != null) {
+                minHeap.add(head);
+            }
+        }
+
+        // Dummy node to start building the merged list
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        // Extract nodes from heap and build sorted linked list
+        while (!minHeap.isEmpty()) {
+            ListNode minNode = minHeap.poll();
+            current.next = minNode;
+            current = minNode;
+
+            if (minNode.next != null) {
+                minHeap.add(minNode.next);
+            }
+        }
+
+        return dummy.next;
+    }
+
+    
