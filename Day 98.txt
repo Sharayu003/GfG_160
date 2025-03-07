@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class MedianInDataStream {
+    
+
+    public static ArrayList<Double> findMedians(int[] arr) {
+        // Max-Heap for the smaller half of the elements
+        PriorityQueue<Integer> left = new PriorityQueue<>(Collections.reverseOrder());
+        // Min-Heap for the larger half of the elements
+        PriorityQueue<Integer> right = new PriorityQueue<>();
+        
+        ArrayList<Double> medians = new ArrayList<>();
+
+        for (int num : arr) {
+            // Insert into appropriate heap
+            if (left.isEmpty() || num <= left.peek()) {
+                left.offer(num);
+            } else {
+                right.offer(num);
+            }
+
+            // Balance the heaps
+            if (left.size() > right.size() + 1) {
+                right.offer(left.poll());
+            } else if (right.size() > left.size()) {
+                left.offer(right.poll());
+            }
+
+            // Calculate median
+            if (left.size() == right.size()) {
+                medians.add((left.peek() + right.peek()) / 2.0);
+            } else {
+                medians.add((double) left.peek());
+            }
+        }
+
+        return medians;
+    }
+}
