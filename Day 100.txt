@@ -1,0 +1,24 @@
+public class LongestValidParentheses {
+    public static int longestValidParentheses(String s) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1); // base index for calculating lengths
+        int maxLength = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                stack.push(i); // push index of '('
+            } else { // c == ')'
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i); // update base index
+                } else {
+                    maxLength = Math.max(maxLength, i - stack.peek());
+                }
+            }
+        }
+        return maxLength;
+    }
+
+    
+}
