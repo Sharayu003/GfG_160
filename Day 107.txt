@@ -1,0 +1,35 @@
+import java.util.Stack;
+
+public class DecodeString {
+    public static String decodeString(String s) {
+        Stack<Integer> numStack = new Stack<>();
+        Stack<StringBuilder> strStack = new Stack<>();
+        StringBuilder currStr = new StringBuilder();
+        int currNum = 0;
+
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                currNum = currNum * 10 + (ch - '0'); // Handle multi-digit numbers
+            } else if (ch == '[') {
+                numStack.push(currNum);  // Push number onto stack
+                strStack.push(currStr);  // Push current string onto stack
+                currNum = 0;  // Reset number
+                currStr = new StringBuilder();  // Reset current string
+            } else if (ch == ']') {
+                int repeatCount = numStack.pop();  // Pop repetition count
+                StringBuilder decodedStr = strStack.pop();  // Pop previous substring
+                
+                // Append repeated substring to the previous string
+                for (int i = 0; i < repeatCount; i++) {
+                    decodedStr.append(currStr);
+                }
+                currStr = decodedStr; // Update current string
+            } else {
+                currStr.append(ch); // Append normal characters
+            }
+        }
+        return currStr.toString();
+    }
+
+    
+}
