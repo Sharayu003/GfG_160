@@ -1,0 +1,31 @@
+public class PalindromicSubstrings {
+    public static int countPalindromicSubstrings(String s) {
+        int count = 0;
+        int n = s.length();
+
+        // Check for palindromes of length >= 2
+        for (int i = 0; i < n; i++) {
+            count += expandAroundCenter(s, i, i + 1); // Even length
+            count += expandAroundCenter(s, i, i);     // Odd length
+        }
+        return count;
+    }
+
+    // Expand around center and count palindromes
+    private static int expandAroundCenter(String s, int left, int right) {
+        int count = 0;
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            if (right - left + 1 >= 2) { // Ensure length is at least 2
+                count++;
+            }
+            left--;
+            right++;
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        String s = "abaab";
+        System.out.println(countPalindromicSubstrings(s)); // Output: 3
+    }
+}
