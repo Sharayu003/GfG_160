@@ -1,0 +1,18 @@
+import java.util.*;
+
+public class CoinChange {
+    public static int countWays(int[] coins, int sum) {
+        int n = coins.length;
+        int[] dp = new int[sum + 1];
+        dp[0] = 1;  // Base case: one way to make sum = 0 (by choosing nothing)
+
+        for (int coin : coins) {  // Iterate over each coin
+            for (int i = coin; i <= sum; i++) {
+                dp[i] += dp[i - coin];  // Use the current coin
+            }
+        }
+        return dp[sum];
+    }
+
+    
+}
