@@ -1,0 +1,29 @@
+public class HouseRobberCircular {
+
+    // Helper method to handle the linear (non-circular) house robber problem
+    private static int robLinear(int[] nums, int start, int end) {
+        int prev = 0, curr = 0;
+        for (int i = start; i <= end; i++) {
+            int temp = curr;
+            curr = Math.max(curr, prev + nums[i]);
+            prev = temp;
+        }
+        return curr;
+    }
+
+    // Main method for circular house robber problem
+    public static int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+        if (n == 1) return nums[0];
+        if (n == 2) return Math.max(nums[0], nums[1]);
+
+        // Exclude first house or exclude last house
+        int excludeFirst = robLinear(nums, 1, n - 1);
+        int excludeLast = robLinear(nums, 0, n - 2);
+
+        return Math.max(excludeFirst, excludeLast);
+    }
+
+    
+}
