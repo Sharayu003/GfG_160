@@ -1,0 +1,28 @@
+public class DecodeWays {
+    public static int numDecodings(String digits) {
+        if (digits == null || digits.length() == 0 || digits.charAt(0) == '0') {
+            return 0;
+        }
+
+        int n = digits.length();
+        int[] dp = new int[n + 1];
+        dp[0] = 1; // base case: empty string
+        dp[1] = 1; // first digit is already checked for '0'
+
+        for (int i = 2; i <= n; i++) {
+            int oneDigit = Integer.parseInt(digits.substring(i - 1, i));
+            int twoDigit = Integer.parseInt(digits.substring(i - 2, i));
+
+            if (oneDigit >= 1 && oneDigit <= 9) {
+                dp[i] += dp[i - 1];
+            }
+
+            if (twoDigit >= 10 && twoDigit <= 26) {
+                dp[i] += dp[i - 2];
+            }
+        }
+
+        return dp[n];
+    }
+
+   
