@@ -1,0 +1,58 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+class Solution {
+
+    // Job class to hold deadline and profit
+    class Job {
+        int deadline, profit;
+
+        Job(int deadline, int profit) {
+            this.deadline = deadline;
+            this.profit = profit;
+        }
+    }
+
+    public ArrayList<Integer> jobSequencing(int[] deadline, int[] profit) {
+        int n = deadline.length;
+
+        // Step 1: Create and store jobs
+        Job[] jobs = new Job[n];
+        for (int i = 0; i < n; i++) {
+            jobs[i] = new Job(deadline[i], profit[i]);
+        }
+
+        // Step 2: Sort jobs by descending profit
+        Arrays.sort(jobs, (a, b) -> b.profit - a.profit);
+
+        // Step 3: Find max deadline
+        int maxDeadline = 0;
+        for (Job job : jobs) {
+            maxDeadline = Math.max(maxDeadline, job.deadline);
+        }
+
+        // Step 4: Time slots initialization
+        boolean[] slots = new boolean[maxDeadline + 1]; // index 0 is unused
+
+        int count = 0;         // Total jobs done
+        int totalProfit = 0;   // Total profit earned
+
+        // Step 5: Schedule jobs
+        for (Job job : jobs) {
+            for (int t = job.deadline; t > 0; t--) {
+                if (!slots[t]) {
+                    slots[t] = true;
+                    count++;
+                    totalProfit += job.profit;
+                    break;
+                }
+            }
+        }
+
+        // Step 6: Return result as ArrayList
+        ArrayList<Integer> result = new ArrayList<>();
+        result.add(count);
+        result.add(totalProfit);
+        return result;
+    }
+}
