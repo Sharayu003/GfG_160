@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class TopologicalSort {
+    public static List<Integer> topologicalSort(int V, int[][] edges) {
+        List<Integer> result = new ArrayList<>();
+        List<List<Integer>> adj = new ArrayList<>();
+        int[] inDegree = new int[V];
+
+        // Initialize adjacency list
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Build the graph
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1];
+            adj.get(u).add(v);
+            inDegree[v]++;
+        }
+
+        // Queue for nodes with 0 in-degree
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < V; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        // Kahn's algorithm
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            result.add(node);
+
+            for (int neighbor : adj.get(node)) {
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        // If all nodes are not processed, return empty list (not a DAG)
+        if (result.size() != V) return new ArrayList<>();
+
+        return result;
+    }
+
+    // Driver code to test
+    public static void main(String[] args) {
+        int V = 4;
+        int[][] edges = {{3, 0}, {1, 0}, {2, 0}};
+        List<Integer> topoSort = topologicalSort(V, edges);
+        System.out.println(topoSort);
+    }
+}
