@@ -1,0 +1,53 @@
+import java.util.*;
+
+public class GraphCycleDetector {
+
+    public static boolean isCyclic(int V, int[][] edges) {
+        // Build adjacency list
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++)
+            adj.add(new ArrayList<>());
+
+        for (int[] edge : edges) {
+            adj.get(edge[0]).add(edge[1]);
+        }
+
+        boolean[] visited = new boolean[V];
+        boolean[] recStack = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                if (dfs(i, visited, recStack, adj))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean dfs(int node, boolean[] visited, boolean[] recStack, List<List<Integer>> adj) {
+        visited[node] = true;
+        recStack[node] = true;
+
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                if (dfs(neighbor, visited, recStack, adj))
+                    return true;
+            } else if (recStack[neighbor]) {
+                return true;
+            }
+        }
+
+        recStack[node] = false;
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int V = 4;
+        int[][] edges = { {0, 1}, {0, 2}, {1, 2}, {2, 0}, {2, 3} };
+
+        if (isCyclic(V, edges))
+            System.out.println("Graph contains a cycle");
+        else
+            System.out.println("Graph does not contain a cycle");
+    }
+}
