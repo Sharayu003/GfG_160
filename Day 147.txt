@@ -1,0 +1,44 @@
+import java.util.PriorityQueue;
+
+class Solution {
+    static class Pair {
+        int cost, houseIndex;
+        
+        Pair(int cost, int houseIndex) {
+            this.cost = cost;
+            this.houseIndex = houseIndex;
+        }
+    }
+    
+    public static int minCostConnectHouses(int[][] houses) {
+        int n = houses.length;
+        boolean[] visited = new boolean[n];
+        
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.cost - b.cost);
+        pq.offer(new Pair(0, 0)); // (cost, houseIndex)
+        
+        int totalCost = 0;
+        
+        while (!pq.isEmpty()) {
+            Pair current = pq.poll();
+            int cost = current.cost;
+            int u = current.houseIndex;
+            
+            if (visited[u]) continue;
+            
+            visited[u] = true;
+            totalCost += cost;
+            
+            for (int v = 0; v < n; v++) {
+                if (!visited[v]) {
+                    int dist = Math.abs(houses[u][0] - houses[v][0]) + Math.abs(houses[u][1] - houses[v][1]);
+                    pq.offer(new Pair(dist, v));
+                }
+            }
+        }
+        
+        return totalCost;
+    }
+    
+    
+}
