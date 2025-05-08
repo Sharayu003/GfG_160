@@ -1,0 +1,36 @@
+import java.util.Arrays;
+
+class Solution {
+    public int[] bellmanFord(int V, int[][] edges, int src) {
+        final int INF = 108;
+        int[] dist = new int[V];
+        Arrays.fill(dist, INF);
+        dist[src] = 0;
+
+        // Step 1: Relax edges up to V-1 times, with early stopping
+        for (int i = 1; i < V; i++) {
+            boolean updated = false;
+
+            for (int[] edge : edges) {
+                int u = edge[0], v = edge[1], w = edge[2];
+                if (dist[u] != INF && dist[u] + w < dist[v]) {
+                    dist[v] = dist[u] + w;
+                    updated = true;
+                }
+            }
+
+            // Optimization: if no updates, no need for further passes
+            if (!updated) break;
+        }
+
+        // Step 2: Detect negative weight cycle
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            if (dist[u] != INF && dist[u] + w < dist[v]) {
+                return new int[]{-1};  // Negative cycle detected
+            }
+        }
+
+        return dist;
+    }
+}
