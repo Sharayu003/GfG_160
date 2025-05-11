@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class MinWeightCycle {
+
+    static final int INF = Integer.MAX_VALUE / 2; // avoid overflow
+
+    public static int findMinCycle(int V, int[][] edges) {
+        int[][] adj = new int[V][V];
+
+        // Initialize adjacency matrix
+        for (int i = 0; i < V; i++) {
+            Arrays.fill(adj[i], INF);
+            adj[i][i] = 0;
+        }
+
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            adj[u][v] = w;
+            adj[v][u] = w;
+        }
+
+        int minCycle = INF;
+
+        // Try removing each edge and apply Floyd-Warshall
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+
+            // Temporarily remove edge
+            adj[u][v] = INF;
+            adj[v][u] = INF;
+
+            // Floyd-Warshall
+            int[][] dist = new int[V][V];
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    dist[i][j] = adj[i][j];
+                }
+            }
+
+            for (int k = 0; k < V; k++) {
+                for (int i = 0; i < V; i++) {
+                    for (int j = 0; j < V; j++) {
+                        if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                            dist[i][j] = dist[i][k] + dist[k][j];
+                        }
+                    }
+                }
+            }
+
+            if (dist[u][v] != INF) {
+                minCycle = Math.min(minCycle, dist[u][v] + w);
+            }
+
+            // Restore the edge
+            adj[u][v] = w;
+            adj[v][u] = w;
+        }
+
+        return minCycle == INF ? -1 : minCycle;
+    }
+
+    
+}
