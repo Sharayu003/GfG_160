@@ -1,0 +1,22 @@
+public class FindDuplicate {
+    public static int findDuplicate(int[] arr) {
+        // Phase 1: Detect intersection point
+        int slow = arr[0];
+        int fast = arr[0];
+
+        do {
+            slow = arr[slow];
+            fast = arr[arr[fast]];
+        } while (slow != fast);
+
+        // Phase 2: Find entrance to the cycle
+        slow = arr[0];
+        while (slow != fast) {
+            slow = arr[slow];
+            fast = arr[fast];
+        }
+
+        return slow;
+    }
+
+}
