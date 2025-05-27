@@ -1,0 +1,11 @@
+public class SingleNumber {
+    public static int findSingleNumber(int[] arr) {
+        int result = 0;
+        for (int num : arr) {
+            result ^= num; // XOR cancels out numbers that appear twice
+        }
+        return result;
+    }
+
+    
+}
