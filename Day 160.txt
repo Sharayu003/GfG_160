@@ -1,0 +1,33 @@
+import java.util.Arrays;
+
+public class UniqueNumbersFinder {
+
+    public static int[] findTwoUniqueNumbers(int[] arr) {
+        int xorAll = 0;
+
+        // Step 1: XOR all elements
+        for (int num : arr) {
+            xorAll ^= num;
+        }
+
+        // Step 2: Find rightmost set bit
+        int setBitNo = xorAll & -xorAll;
+
+        // Step 3: Divide numbers into two groups and XOR separately
+        int x = 0, y = 0;
+        for (int num : arr) {
+            if ((num & setBitNo) != 0) {
+                x ^= num;
+            } else {
+                y ^= num;
+            }
+        }
+
+        // Return the result in increasing order
+        int[] result = new int[]{x, y};
+        Arrays.sort(result);
+        return result;
+    }
+
+    
+}
